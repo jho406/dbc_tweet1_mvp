@@ -1,23 +1,22 @@
 <div class="container">
   <h1>Welcome to Sinatra!</h1>
-  <p>Hello, world!</p>
-
-  <table>
-    <tr>
-      <th>File Description</th>
-      <th>File Location</th>
-    </tr>
-    <tr>
-      <td>This view file</td>
-      <td><code><%= __FILE__.gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The layout file</td>
-      <td><code><%= File.expand_path('../layout.erb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The current controller</td>
-      <td><code><%= File.expand_path('../../controllers/index.rb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-  </table>
+  <div class="tweets">
+    <% if @tweets %>
+      <% @tweets.each do |tweet| %>
+        <p><%= tweet.body %></p>
+      <% end %>
+    <% else %>
+  </div>
+    <h4>Loading, please wait</h4>
+    <img src="/images/loading.gif">
+    <script>
+      $(function(){
+        $.get("/ajax/<%=@user.handle%>",function(data){
+          console.log(data);
+          $('img').css('display','none');
+          $('.tweets').append(data);
+          });
+      });
+    </script>
+  <% end %>
 </div>

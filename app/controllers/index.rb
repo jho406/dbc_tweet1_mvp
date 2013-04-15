@@ -6,11 +6,17 @@ end
 
 get '/:username' do
   @user = Bird.find_or_create_by_handle(params[:username])
-  if @user.tweets_stale?
-    puts "hi this is new tweets!"
-    @user.fetch_tweets!
+  if not @user.tweets_stale?
+    @tweets = @user.tweets.limit(10)
   end
-  @tweets = @user.tweets.limit(10).pluck(:body).inspect
+  erb :index
+end
+
+get '/ajax/:username' do
+  @user = Bird.find_or_create_by_handle(params[:username])
+  @user.fetch_tweets!
+  @tweets = @user.tweets.limit(10)
+  erb :_tweets
 end
 
 # get '/:username' do

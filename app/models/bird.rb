@@ -7,9 +7,8 @@ class Bird < ActiveRecord::Base
   end
 
   def tweets_stale?
-    self.tweets.empty? || 
+    self.tweets.empty? ||
     Time.now - self.tweets.last.created_at > rand(942) ||
-    (self.tweets.average(:seconds_passed)>942) 
-
+    (self.tweets.average(:seconds_passed) > 942) 
   end
 end
